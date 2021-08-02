@@ -18,10 +18,10 @@ app.use(cors())
 
 
 //Routes
-app.use("/login",authRoutes)
+app.use("/login",authRoutes )
 
 
-// DB connected
+// DB connected !!
 mongoose.connect(process.env.DATABASE,
     {
         useNewUrlParser: true,
