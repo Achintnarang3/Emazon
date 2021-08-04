@@ -52,9 +52,9 @@ userSchema.methods={
 
     authenticate:function(plainpassword)
     {
-        if(securePassword(plainpassword)!==this.encry_password)
+        if(this.securePassword(plainpassword)!=this.encry_password)
         {
-            return "Password is Correct"
+            return "Password is InCorrect"
         }
     },
     securePassword:function(plainpassword){

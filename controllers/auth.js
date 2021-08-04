@@ -58,7 +58,7 @@ exports.signin=(req,res)=>{
 
         //console.log(user)
 
-        if(!user.authenticate(password))
+        if(user.authenticate(password))
         {
             return res.status(400).send("Enter Correct Password")
         }
@@ -73,7 +73,7 @@ exports.signin=(req,res)=>{
         const{_id,name,email,role}=user
 
         res.status(200).json({
-            _id,name,email,role
+            _id,name,email,role,token
         })
 
 
@@ -84,3 +84,36 @@ exports.signin=(req,res)=>{
 
 
 }
+
+exports.isSignedIN=expressJwt({
+    secret:process.env.SECRETKEY,
+    userProperty:"auth"
+})
+
+exports.isAuthenticated=(req,res,next)=>{
+
+    let checker=req.profile&&req.auth&&req.profile._id==req.auth._id;
+
+    if(!checker)
+    {
+        return res.status(403).json({
+            error:"Access Denied"
+        })
+    }
+
+    next()
+
+}
+
+exports.isAdmin=(req,res,next)=>{
+  if(req.profile.user===0)
+  {
+      return res.status.json({
+          message:"Not admin"
+      })
+
+     
+  }
+  next()
+}
+

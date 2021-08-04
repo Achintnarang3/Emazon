@@ -5,8 +5,10 @@ const mongoose=require('mongoose')
 const bodyParser=require('body-parser')
 const cookieParser = require('cookie-parser')
 const cors=require('cors')
-const authRoutes=require("./routes/auth.js")
 
+// Routes
+const authRoutes=require("./routes/auth.js")
+const userRoutes=require("./routes/user.js")
 
 
 const app=express()
@@ -18,7 +20,8 @@ app.use(cors())
 
 
 //Routes
-app.use("/login",authRoutes )
+app.use("/login",authRoutes)
+app.use("/user",userRoutes)
 
 
 // DB connected !!
