@@ -1,4 +1,5 @@
 const User=require("../models/user.js")
+const Order=require("../models/order.js")
 const { check,validationResult} = require('express-validator');
 
 
@@ -18,8 +19,8 @@ exports.getUserById=(req,res,next,id)=>{
 
 exports.getUser=(req,res)=>{
 
-    req.profile.salt=undefined
-    req.profile.encry_password=undefined
+     req.profile.salt=undefined
+     req.profile.encry_password=undefined
 
     res.json(req.profile)
 }
@@ -68,3 +69,23 @@ exports.updateUser=(req,res)=>{
         }
     )
 }
+
+exports.getProdcut=(req,res)=>{
+  
+    Order.find({user:req.profile._id}).populate("user","_id name").exec((err,order)=>{
+        
+        if(err)
+        {
+            res.status(400).json({
+                message:"Error in Finding"
+            })
+        }
+
+        res.status(200).json(order)
+
+
+    })
+
+
+}
+

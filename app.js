@@ -9,6 +9,8 @@ const cors=require('cors')
 // Routes
 const authRoutes=require("./routes/auth.js")
 const userRoutes=require("./routes/user.js")
+const categoryRoutes=require("./routes/category.js")
+const productRoutes=require("./routes/product.js")
 
 
 const app=express()
@@ -22,6 +24,8 @@ app.use(cors())
 //Routes
 app.use("/login",authRoutes)
 app.use("/user",userRoutes)
+app.use("/category",categoryRoutes)
+app.use("/product",productRoutes)
 
 
 // DB connected !!

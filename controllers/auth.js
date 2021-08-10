@@ -106,7 +106,7 @@ exports.isAuthenticated=(req,res,next)=>{
 }
 
 exports.isAdmin=(req,res,next)=>{
-  if(req.profile.user===0)
+  if(req.profile.user==0)
   {
       return res.status.json({
           message:"Not admin"
