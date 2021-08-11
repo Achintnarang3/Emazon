@@ -11,6 +11,7 @@ const authRoutes=require("./routes/auth.js")
 const userRoutes=require("./routes/user.js")
 const categoryRoutes=require("./routes/category.js")
 const productRoutes=require("./routes/product.js")
+const orderRoutes=require("./routes/order")
 
 
 const app=express()
@@ -26,6 +27,7 @@ app.use("/login",authRoutes)
 app.use("/user",userRoutes)
 app.use("/category",categoryRoutes)
 app.use("/product",productRoutes)
+app.use("/order",orderRoutes)
 
 
 // DB connected !!
