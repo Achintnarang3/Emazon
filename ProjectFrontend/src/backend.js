@@ -1,0 +1,1 @@
+export default API=REACT_APP_BACKEND
