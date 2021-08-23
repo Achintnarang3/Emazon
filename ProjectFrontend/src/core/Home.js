@@ -6,7 +6,7 @@ function Home()
     return(
          <div>
              <Base>
-             <h1>Hello</h1>
+            <h1>This is home page</h1>
              </Base>
          </div>
     )
