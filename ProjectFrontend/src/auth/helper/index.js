@@ -1,7 +1,9 @@
  import {API} from "../../backend"
 
- export const signup=user=>{
-     return fetch(`${API}/signup`,{
+ export const signup=(user)=>{
+    
+     
+     return fetch(`${API}/login/signup`,{
          method:"POST",
          headers:{
              Accept:"application/json",
@@ -9,28 +11,34 @@
          },
          body:JSON.stringify(user)
      }).then(res=>{
-         return res.json();
-     }).catch(err=>{
-         console.log("Error in signup route")
+       
+         return res;
+     }).catch(error=>{
+         return error
+          
      })
  }
 
  export const signin=user=>{
-    return fetch(`${API}/signin`,{
+    return fetch(`${API}/login/signin`,{
         method:"POST",
         headers:{
             Accept:"application/json",
             "Content-Type":"application/json"
         },
         body:JSON.stringify(user)
-    }).then(res=>{
+    }).then(res => {
+       // var x = res.json()
+        console.log(res.body)
         return res.json();
-    }).catch(err=>{
-        console.log("Error in signin route")
+    }).catch(err => {
+         console.log(err)
     })
 }
 
-export const authenticate=(data,next)=>{
+export const authenticate = (data, next) => {
+    
+
     if(typeof window!==null)
     {
         localStorage.setItem("jwt",JSON.stringify(data))
@@ -40,7 +48,7 @@ export const authenticate=(data,next)=>{
 
 }
 
-export const isauthenticated=(next)=>{
+export const isAuthenticated=(next)=>{
     if(typeof window===null)
     {
          return false;
@@ -68,7 +76,7 @@ export const signout=(next)=>{
         next()
     }
 
-    return fetch(`${API}/signout`,{
+    return fetch(`${API}/login/signout`,{
         method:"GET",
         headers:{
             Accept:"application/json",

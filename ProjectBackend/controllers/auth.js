@@ -30,12 +30,14 @@ exports.signup=(req,res)=>{
             id:user._id
         })
 
-     }).catch((err)=>{
-        res.status(400).send(err)
+     }).catch((error)=>{
+        res.status(400).send("Email Already Taken")
      })
 }
 
-exports.signin=(req,res)=>{
+exports.signin = (req, res) => {
+    
+  
 
     const {email,password}=req.body
   //  console.log(email)
@@ -60,7 +62,7 @@ exports.signin=(req,res)=>{
 
         if(user.authenticate(password))
         {
-            return res.status(400).send("Enter Correct Password")
+            return res.status(400).json("Enter Correct Password")
         }
          
         // Create token
@@ -69,11 +71,9 @@ exports.signin=(req,res)=>{
         // Put token in cookie
         res.cookie("token",token,{expire:new Date()+9999})
 
-        // Send response to frontend
-        const{_id,name,email,role}=user
-
-        res.status(200).json({
-            _id,name,email,role,token
+        
+        res.status(200).send({
+            user,token
         })
 
 

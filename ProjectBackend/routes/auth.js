@@ -21,7 +21,7 @@ router.post("/signin",[
 signin)
 
 
-router.get("/test",isSignedIN,(req,res)=>{
+router.get("/test",(req,res)=>{
    
     res.json({
         message:"Working Fine"

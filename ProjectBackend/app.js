@@ -19,7 +19,8 @@ const app=express()
 // Middleware
 app.use(cookieParser())
 app.use(bodyParser.json())
-app.use(cors())
+app.use(cors());
+
 
 
 //Routes
@@ -29,6 +30,9 @@ app.use("/category",categoryRoutes)
 app.use("/product",productRoutes)
 app.use("/order",orderRoutes)
 
+app.get("/",(req,res)=>{
+    res.send("hello")
+})
 
 // DB connected !!
 mongoose.connect(process.env.DATABASE,
