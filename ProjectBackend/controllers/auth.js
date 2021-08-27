@@ -62,7 +62,7 @@ exports.signin = (req, res) => {
 
         if(user.authenticate(password))
         {
-            return res.status(400).json("Enter Correct Password")
+            return res.status(400).json({ error: "Enter Correct Password" })
         }
          
         // Create token

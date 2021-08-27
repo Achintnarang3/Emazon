@@ -29,7 +29,7 @@
         body:JSON.stringify(user)
     }).then(res => {
        // var x = res.json()
-        console.log(res.body)
+        
         return res.json();
     }).catch(err => {
          console.log(err)
