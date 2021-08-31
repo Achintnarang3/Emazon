@@ -1,6 +1,6 @@
 const express=require("express")
 const router=express.Router()
-const { body } = require('express-validator');
+const {check } = require('express-validator');
 
 //Controllers
 const {productById,createProduct,
@@ -17,10 +17,10 @@ router.param("productId",productById)
 
 router.post('/createProduct/:userId',isSignedIN,isAuthenticated,isAdmin,[
 
-    body('name','Name should be present').isLength({min:1}),
-    body('description','description should be present').isLength({min:1}),
-    body('price','Price should be present').isLength({min:1}),
-],createProduct)
+    check('name','Name should be present').isLength({min:1}),
+    check('description','description should be present').isLength({min:1}),
+    check('price','Price should be present').isLength({min:1}),
+],createProduct) 
 
 // View product
 router.get('/getProduct/:productId',getProduct)

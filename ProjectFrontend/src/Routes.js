@@ -8,6 +8,10 @@ import Profile from './user/Profile';
 import UserDashBoard from './user/UserDashBoard';
 import AdminRoute from './auth/helper/AdminRoutes';
 import PrivateRoute from './auth/helper/PrivateRoutes';
+import AddCategory from './admin/AddCategory';
+import AddProduct from './admin/AddProduct'
+import ManageProduct from './admin/ManageProducts';
+import   UpdateProduct  from './admin/UpdateProduct';
 
 
 
@@ -27,10 +31,26 @@ function Router()
         <Switch>
           <PrivateRoute path="/UserDashBoard" component={UserDashBoard}/>
             </Switch>
-            <Switch>
+        <Switch>
           <AdminRoute path="/AdminDashBoard" component={AdminDashBoard}/>
         </Switch>
-        </BrowserRouter>
+         <Switch>
+          <AdminRoute path="/admin/create/category" component={AddCategory}/>
+        </Switch>
+         <Switch>
+          <AdminRoute path="/admin/products" component={ManageProduct}/>
+        </Switch>
+          <Switch>
+          <AdminRoute path="/admin/create/product" component={AddProduct}/>
+        </Switch>
+         <Switch>
+          <AdminRoute path="/admin/product/update/:productId" component={ UpdateProduct}/>
+        </Switch>
+
+       
+
+      </BrowserRouter>
+     
     )
 }
 

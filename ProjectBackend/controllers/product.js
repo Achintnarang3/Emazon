@@ -25,14 +25,15 @@ exports.productById=(req,res,next,id)=>{
 
 exports.createProduct=(req,res)=>{
     
-    const errors=validationResult(req)
+    const errors = validationResult(req)
+    //console.log(errors)
 
-    if(!errors.isEmpty())
-    {
-        return res.json({
-            error:errors.array()[0].msg
-        })
-    }
+    // if(!errors.isEmpty())
+    // {
+    //     return res.json({
+    //         error:errors.array()[0].msg
+    //     })
+    // }
 
 
     const form = formidable();
@@ -40,7 +41,7 @@ exports.createProduct=(req,res)=>{
     form.parse(req,(err,field,file)=>{
         if(err)
         {
-            return res.status(400).json({
+            return res.status(200).json({
                 error:"Error in Creating Product"
             })
         }
@@ -51,7 +52,7 @@ exports.createProduct=(req,res)=>{
         {
             if(file.photo.size>300000)
             {
-                return res.status(400).json({
+                return res.status(200).json({
                     error:"File Too Big"
                 })
     
@@ -61,18 +62,19 @@ exports.createProduct=(req,res)=>{
 
         
 
-        product.photo.data=fs.readFileSync(file.photo.path)
+        product.photo.data=fs.readFileSync(file.photo.path) 
         product.photo.contentType=file.photo.type
 
-        product.save((err,product)=>{
+        product.save((err, product) => {
+             
             if(err)
             {
-                return res.json({
+                return res.status(200).json({
                     error:"Unable to save"
                 })
             }
 
-            return res.json(product)
+            return res.status(200).json(product)
         })
         
     })
@@ -101,54 +103,43 @@ exports.photo=(req,res,next)=>{
 }
 
 exports.updateProduct=(req,res)=>{
-     
-
-    const form = formidable();
-
-    form.parse(req,(err,field,file)=>{
-        if(err)
+     let form = new formidable.IncomingForm();
+    form.keepExtensions = true;
+    
+    form.parse(req, (err , fields , file) => {
+        if(err) 
         {
             return res.status(400).json({
-                error:"Error in Creating Product"
+                error : "problem with image!"
             })
         }
         
-        // Update Product using lodash
-        const product=req.product
-        product =_.extend(product,field)
-
-
-        if(file.photo)
-        {
-            if(file.photo.size>300000)
-            {
+        // updation code
+        let product = req.product
+        product = _.extend(product, fields)
+        
+        // handle files
+        if(file.photo){
+            if(file.photo.size > 3000000){
                 return res.status(400).json({
-                    error:"File Too Big"
+                    error : "file size too big!"
                 })
-    
-
             }
+            product.photo.data = fs.readFileSync(file.photo.path)
+            product.photo.contentType = file.photo.type
         }
 
-        
-
-        product.photo.data=fs.readFileSync(file.photo.path)
-        product.photo.contentType=file.photo.type
-
-        product.save((err,product)=>{
+        // save to db
+        product.save((err , product) => {
             if(err)
             {
-                return res.json({
-                    error:"Updation Fail"
+                return res.status(400).json({
+                    error : "updation of tshirt in db failed!"
                 })
             }
-
             return res.json(product)
         })
-        
     })
-
-
 }
 
 exports.deleteProduct=(req,res)=>{
@@ -158,8 +149,8 @@ exports.deleteProduct=(req,res)=>{
     product.remove((err,deletedProduct)=>{
         if(err)
         {
-            return res.status(400).json({
-                Message:"Unable to delete"
+            return res.status(200).json({
+                error:"Unable to delete"
             })
         }
 
@@ -171,25 +162,25 @@ exports.deleteProduct=(req,res)=>{
     })
 }
 
-exports.getAllProducts=(req,res)=>{
+exports.getAllProducts = (req , res) => {
+    
+    let limit = req.query.limit ? parseInt(req.query.limit) : 8
+    let sortBy = req.query.sortBy ? req.query.sortBy : "_id"
 
-    let limit=req.query.limit?parseInt(req.query.limit):8
-    let sortBy=req.query.sortBy?req.query.sortBy:"_id"
-
-    Product.find().
-    populate("category")
-    select("-photo").
-    sort([[sortBy,"asc"]]).
-    exec((err,product)=>{
+    Product.find()
+    .select("-photo")
+    .populate("category")
+    .sort([[sortBy, "asc"]])
+    .limit(limit)
+    .exec((err , products) => {
         if(err)
         {
             return res.status(400).json({
-                message:"No product found"
+                error :"no products found!"
             })
         }
-        res.json(product)
+        res.json(products);
     })
-
 }
 
 exports.getUniqueCategory=(req,res)=>{

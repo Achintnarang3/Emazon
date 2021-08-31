@@ -24,7 +24,7 @@ exports.createCategory=(req,res)=>{
     category.save().then(category=>{
         res.status(200).json(category)
     }).catch((err)=>{
-        res.status(400).send("Error in saving ")
+        res.status(200).send({ error: "Error in saving" })
     })
 }
 
