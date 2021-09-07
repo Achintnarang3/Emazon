@@ -8,6 +8,7 @@ import Profile from './user/Profile';
 import UserDashBoard from './user/UserDashBoard';
 import AdminRoute from './auth/helper/AdminRoutes';
 import PrivateRoute from './auth/helper/PrivateRoutes';
+import Cart from './core/Cart';
 import AddCategory from './admin/AddCategory';
 import AddProduct from './admin/AddProduct'
 import ManageProduct from './admin/ManageProducts';
@@ -24,6 +25,9 @@ function Router()
         </Switch>
         <Switch>
         <Route path="/SignUp" exact component={SignUp}/>
+        </Switch>
+        <Switch>
+        <Route path="/Cart" exact component={Cart}/>
         </Switch>
         <Switch>
         <Route path="/SignIn" exact component={Signin}/>

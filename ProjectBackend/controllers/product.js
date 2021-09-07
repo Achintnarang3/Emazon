@@ -97,7 +97,7 @@ exports.photo=(req,res,next)=>{
         return res.send(req.product.photo.data)
     }
 
-    next()
+    
 
 
 }
@@ -175,7 +175,7 @@ exports.getAllProducts = (req , res) => {
     .exec((err , products) => {
         if(err)
         {
-            return res.status(400).json({
+            return res.status(200).json({
                 error :"no products found!"
             })
         }
